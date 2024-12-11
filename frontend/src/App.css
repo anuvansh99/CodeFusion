@@ -1,0 +1,158 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #0D0C0C;
+  color: #fff;
+  overflow-x: hidden;
+}
+html{
+  overflow-x: hidden;
+}
+.inputBox{
+  width: 100%;
+  background-color: #141414;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.inputBox input{
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
+}
+
+.btnBlue{
+  background-color: #00AEEF;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+}
+.btnBlue:hover{
+  background-color: #0086b3;
+}
+.grid{
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px;
+}
+
+.lightMode{
+  background-color: #fff !important;
+  color: #000 !important;
+};
+
+
+.lightMode .navbar{
+  background-color: #fff;
+}
+
+.lightMode .tabs{
+  background-color: #f7f7f7;
+}
+.lightMode .tabs .tab{
+  background-color: #c2c1c1;
+  color: #000;
+}
+
+.lightMode .btn{
+  background-color: #C2C1C1;
+  color: #000;
+}
+
+.navbut:hover{
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  background: black;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  background-color: #0099cc;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  text-decoration: underline;
+  font-weight: 700;
+  font-family: 'Arial, Helvetica, sans-serif'
+}
+
+.title {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* Main Content */
+.main-content {
+  padding: 20px;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  
+}
+
+/* Text */
+.text {
+  font-size: 1rem;
+  
+}
+
+/* Features Section */
+.features {
+  margin-top: 20px;
+}
+
+.feature-list {
+  list-style-type: disc;
+  margin: 10px 0 0 20px;
+  padding: 0;
+}
+
+.feature-item {
+  margin: 5px 0;
+  font-size: 1rem;
+  
+}
+
+/* Vision Section */
+.vision {
+  margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 0.9rem;
+}
