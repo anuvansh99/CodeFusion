@@ -7,6 +7,28 @@ const GridCard = ({item}) => {
   const [isDeleteModelShow, setIsDeleteModelShow] = useState(false);
   const navigate = useNavigate();
 
+  const deleteProj = (id) => {
+    fetch(api_base_url + "/deleteProject",{
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        progId: id,
+        userId: localStorage.getItem("userId")
+      })
+    }).then(res=>res.json()).then(data=>{
+      if(data.success){
+        setIsDeleteModelShow(false)
+        window.location.reload()
+      }else{
+        alert(data.message)
+        setIsDeleteModelShow(false)
+      }
+    })
+  }
+
   return (
     <>
       <div className="gridCard bg-[#141414] w-[270px] p-[10px] h-[180px] cursor-pointer hover:bg-[#202020] rounded-lg shadow-lg shadow-black/50">
@@ -26,7 +48,7 @@ const GridCard = ({item}) => {
             <h3 className='text-3xl'>Do you want to delete <br />
               this project</h3>
             <div className='flex w-full mt-5 items-center gap-[10px]'>
-              <button className='p-[10px] rounded-lg bg-[#FF4343] text-white cursor-pointer min-w-[49%]'>Delete</button>
+              <button onClick={()=>{deleteProj(item._id)}} className='p-[10px] rounded-lg bg-[#FF4343] text-white cursor-pointer min-w-[49%]'>Delete</button>
               <button onClick={()=>{setIsDeleteModelShow(false)}} className='p-[10px] rounded-lg bg-[#1A1919] text-white cursor-pointer min-w-[49%]'>Cancel</button>
             </div>
           </div>
