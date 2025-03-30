@@ -13,26 +13,42 @@ router.get('/', function (req, res, next) {
 const secret = "secret"; // secret key for jwt
 
 router.post("/signUp", async (req, res) => {
-  let { username, name, email, password } = req.body;
-  let emailCon = await userModel.findOne({ email: email });
-  if (emailCon) {
-    return res.json({ success: false, message: "Email already exists" });
-  }
-  else {
+  try {
+    const { username, name, email, password } = req.body;
+    
+    // Check existing email
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: "Email exists" });
+    }
 
-    bcrypt.genSalt(10, function (err, salt) {
-      bcrypt.hash(password, salt, function (err, hash) {
-        let user = userModel.create({
-          username: username,
-          name: name,
-          email: email,
-          password: hash
-        });
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        return res.json({ success: true, message: "User created successfully" });
-      });
+    // Create user
+    const newUser = await userModel.create({
+      username,
+      name,
+      email,
+      password: hashedPassword
     });
 
+    // Generate JWT (if needed)
+    // const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+    res.status(201).json({ 
+      success: true, 
+      message: "User created",
+      // token // Optional: Send JWT
+    });
+    
+  } catch (error) {
+    console.error("Signup error:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error" 
+    });
   }
 });
 
