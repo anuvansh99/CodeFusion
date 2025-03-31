@@ -103,7 +103,7 @@ const Editior = () => {
 
   useEffect(() => {
     run();
-  }, [htmlCode, cssCode, jsCode]);
+  }, [htmlCode, cssCode, jsCode, isExpanded]);
 
   return (
     <>
