@@ -19,6 +19,7 @@ let userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
+  firebaseUid: { type: String, unique: true, sparse: true }, 
   date: {
     type: Date,
     default: Date.now

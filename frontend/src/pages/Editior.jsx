@@ -3,8 +3,11 @@ import EditiorNavbar from '../components/EditiorNavbar';
 import Editor from '@monaco-editor/react';
 import { MdLightMode } from 'react-icons/md';
 import { AiOutlineExpandAlt } from 'react-icons/ai';
+import { FiDownload } from 'react-icons/fi';
 import { api_base_url } from '../helper';
 import { useParams } from 'react-router-dom';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const Editior = () => {
   const [tab, setTab] = useState('html');
@@ -64,6 +67,43 @@ const Editior = () => {
         console.error('Error saving project:', err);
         alert('Failed to save project. Please try again.');
       });
+  };
+
+  // --- Download Handler ---
+  const handleDownload = async () => {
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder(projectID || 'project');
+
+      // Compose the complete HTML file for download
+      const completeHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${projectID || 'Project'}</title>
+  <style>
+${cssCode}
+  </style>
+</head>
+<body>
+${htmlCode}
+  <script>
+${jsCode}
+  </script>
+</body>
+</html>`;
+
+      folder.file('index.html', completeHtml);
+      folder.file('style.css', cssCode);
+      folder.file('script.js', jsCode);
+
+      const content = await zip.generateAsync({ type: 'blob' });
+      saveAs(content, `${projectID || 'project'}.zip`);
+    } catch (err) {
+      alert('Failed to download project files.');
+      console.error('Download error:', err);
+    }
   };
 
   useEffect(() => {
@@ -128,6 +168,14 @@ const Editior = () => {
               >
                 Save
               </button>
+              <button
+                onClick={handleDownload}
+                className="btn flex items-center gap-1 px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                title="Download Project"
+              >
+                <FiDownload className="text-lg" />
+                Download
+              </button>
             </div>
             <div className="flex items-center gap-4">
               <MdLightMode
@@ -152,8 +200,6 @@ const Editior = () => {
               if (tab === 'js') setJsCode(code);
             }}
           />
-
-
         </div>
         {!isExpanded && (
           <iframe

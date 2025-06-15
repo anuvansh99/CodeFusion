@@ -12,6 +12,18 @@ const Home = () => {
   const [projTitle, setProjTitle] = useState('');
   const navigate = useNavigate();
   const [isCreateModelShow, setIsCreateModelShow] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [userError, setUserError] = useState('');
+  const [isGridLayout, setIsGridLayout] = useState(false);
+
+  // Light mode state for search bar and other elements
+  const [isLightMode, setIsLightMode] = useState(document.body.classList.contains('lightMode'));
+
+  useEffect(() => {
+    const handler = () => setIsLightMode(document.body.classList.contains('lightMode'));
+    window.addEventListener('themeChanged', handler);
+    return () => window.removeEventListener('themeChanged', handler);
+  }, []);
 
   const filteredData = data
     ? data.filter((item) =>
@@ -73,9 +85,6 @@ const Home = () => {
     getProj();
   }, []);
 
-  const [userData, setUserData] = useState(null);
-  const [userError, setUserError] = useState('');
-
   useEffect(() => {
     fetch(api_base_url + '/getUserDetails', {
       mode: 'cors',
@@ -97,21 +106,23 @@ const Home = () => {
       });
   }, []);
 
-  const [isGridLayout, setIsGridLayout] = useState(false);
-
   return (
     <>
       <Navbar isGridLayout={isGridLayout} setIsGridLayout={setIsGridLayout} />
       <div className="flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 lg:px-24 my-6">
         <h2 className="text-lg sm:text-xl lg:text-2xl">Hi, {userData ? userData.username : ''} 👋</h2>
         <div className="flex items-center gap-2">
-          <div className="inputBox w-full sm:w-72">
+          <div className={`inputBox w-full sm:w-72 rounded-md transition-colors duration-200 ${isLightMode ? 'bg-white' : 'bg-gray-800'}`}>
             <input
               type="text"
               placeholder="Search Here...!"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full"
+              className={`w-full px-3 py-2 rounded-md outline-none transition-colors duration-200
+                ${isLightMode
+                  ? 'bg-white text-black border border-gray-300 placeholder-gray-500'
+                  : 'bg-gray-800 text-white border border-gray-700 placeholder-gray-400'
+                }`}
             />
           </div>
           <button
@@ -146,16 +157,20 @@ const Home = () => {
       </div>
 
       {isCreateModelShow && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-11/12 sm:w-3/5 md:w-2/5 lg:w-1/4 bg-gray-800 rounded-lg p-6">
+        <div className={`fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50`}> 
+          <div className={`w-11/12 sm:w-3/5 md:w-2/5 lg:w-1/4 rounded-lg p-6 transition-colors duration-200 ${isLightMode ? 'bg-white text-black' : 'bg-gray-800 text-white'}`}>
             <h3 className="text-xl mb-4">Create New Project</h3>
-            <div className="inputBox bg-gray-700 mb-4">
+            <div className={`inputBox mb-4 rounded-md transition-colors duration-200 ${isLightMode ? 'bg-white' : 'bg-gray-700'}`}>
               <input
                 onChange={(e) => setProjTitle(e.target.value)}
                 value={projTitle}
                 type="text"
                 placeholder="Project Title"
-                className="w-full"
+                className={`w-full px-3 py-2 rounded-md outline-none transition-colors duration-200
+                  ${isLightMode
+                    ? 'bg-white text-black border border-gray-300 placeholder-gray-500'
+                    : 'bg-gray-700 text-white border border-gray-700 placeholder-gray-400'
+                  }`}
               />
             </div>
             <div className="flex gap-4">
@@ -167,7 +182,7 @@ const Home = () => {
               </button>
               <button
                 onClick={() => setIsCreateModelShow(false)}
-                className="btnBlue flex-1 rounded-md bg-gray-600 py-2"
+                className={`btnBlue flex-1 rounded-md py-2 ${isLightMode ? 'bg-gray-200 text-black' : 'bg-gray-600 text-white'}`}
               >
                 Cancel
               </button>

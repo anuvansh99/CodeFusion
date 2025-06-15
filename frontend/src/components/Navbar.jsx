@@ -10,6 +10,8 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
+  // Default: dark mode (no lightMode class)
+  const [isLightMode, setIsLightMode] = useState(document.body.classList.contains('lightMode'));
 
   useEffect(() => {
     fetch(api_base_url + '/getUserDetails', {
@@ -32,11 +34,26 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
       });
   }, []);
 
+  // On mount, ensure dark mode is default
+  useEffect(() => {
+    document.body.classList.remove('lightMode');
+    setIsLightMode(false);
+    window.dispatchEvent(new Event('themeChanged'));
+  }, []);
+
   const logout = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('isLoggedIn');
     window.location.reload();
+  };
+
+  // Light/Dark mode toggle handler
+  const toggleTheme = () => {
+    document.body.classList.toggle('lightMode');
+    const nowLight = document.body.classList.contains('lightMode');
+    setIsLightMode(nowLight);
+    window.dispatchEvent(new Event('themeChanged'));
   };
 
   return (
@@ -51,6 +68,16 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
       </div>
 
       <div className="links flex items-center gap-4 sm:gap-8">
+        {/* Light/Dark mode toggle button */}
+        <button
+          onClick={toggleTheme}
+          className={`p-2 rounded-md transition-colors duration-200 ${
+            isLightMode ? 'bg-yellow-300 text-black' : 'bg-gray-700 text-white'
+          }`}
+          title={isLightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+        >
+          <MdLightMode className="text-xl" />
+        </button>
         <span className="navbut">
           <Link to="/">Home</Link>
         </span>
