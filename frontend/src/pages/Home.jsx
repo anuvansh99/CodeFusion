@@ -110,7 +110,7 @@ const Home = () => {
     <>
       <Navbar isGridLayout={isGridLayout} setIsGridLayout={setIsGridLayout} />
       <div className="flex flex-col sm:flex-row items-center justify-between px-6 sm:px-12 lg:px-24 my-6">
-        <h2 className="text-lg sm:text-xl lg:text-2xl">Hi, {userData ? userData.username : ''} 👋</h2>
+        <h2 className="text-lg sm:text-xl lg:text-2xl">Hi, {userData ? userData.name : 'Coder!'} 👋</h2>
         <div className="flex items-center gap-2">
           <div className={`inputBox w-full sm:w-72 rounded-md transition-colors duration-200 ${isLightMode ? 'bg-white' : 'bg-gray-800'}`}>
             <input
