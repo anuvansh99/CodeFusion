@@ -36,7 +36,7 @@ const Editior = () => {
       </head>
       <body>
         ${htmlCode}
-        <script>${jsCode}</script>
+        <script>${jsCode}<\/script>
       </body>
       </html>
     `;
@@ -148,7 +148,7 @@ ${jsCode}
   return (
     <>
       <EditiorNavbar proj={projectID} />
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row w-full">
         <div className={`left w-full ${isExpanded ? 'lg:w-full' : 'lg:w-1/2'}`}>
           <div className="tabs flex items-center justify-between gap-2 bg-[#1A1919] px-8 py-2">
             <div className="tabs flex gap-4">
@@ -194,7 +194,7 @@ ${jsCode}
             language={tab === 'html' ? 'html' : tab === 'css' ? 'css' : 'javascript'}
             value={tab === 'html' ? htmlCode : tab === 'css' ? cssCode : jsCode}
             onChange={(value) => {
-              const code = value || ''; // Ensure value is not undefined
+              const code = value || '';
               if (tab === 'html') setHtmlCode(code);
               if (tab === 'css') setCssCode(code);
               if (tab === 'js') setJsCode(code);
@@ -202,11 +202,17 @@ ${jsCode}
           />
         </div>
         {!isExpanded && (
-          <iframe
-            id="iframe"
-            className="w-full lg:w-1/2 min-h-[82vh] bg-white text-black"
-            title="Output"
-          />
+          <div className="w-full lg:w-1/2">
+            {/* Show label only on mobile */}
+            <div className="block lg:hidden bg-[#1A1919] px-4 py-2 text-white text-sm font-semibold">
+              Preview
+            </div>
+            <iframe
+              id="iframe"
+              className="w-full min-h-[40vh] lg:min-h-[82vh] bg-white text-black"
+              title="Output"
+            />
+          </div>
         )}
       </div>
     </>
