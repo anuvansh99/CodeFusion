@@ -10,6 +10,14 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/login', function (req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+router.get('/signUp', function (req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
 const secret = "secret"; // secret key for jwt
 
 router.post("/signUp", async (req, res) => {
